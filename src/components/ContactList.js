@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 export default function ContactList({ contacts, idToDelete }) {
   return (
     <ul>
@@ -12,3 +14,8 @@ export default function ContactList({ contacts, idToDelete }) {
     </ul>
   );
 }
+
+ContactList.propTypes = {
+  contact: PropTypes.arrayOf(PropTypes.object),
+  idToDelete: PropTypes.func,
+};

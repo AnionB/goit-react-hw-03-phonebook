@@ -18,6 +18,7 @@ export class App extends Component {
 
   componentDidMount() {
     const parsedContacts = JSON.parse(localStorage.getItem('contacts'));
+    console.log(this.props);
 
     if (parsedContacts) {
       this.setState({ contacts: parsedContacts });
@@ -45,9 +46,16 @@ export class App extends Component {
       contacts: [...prevState.contacts, contact],
     }));
   };
-  filterContactlist = f => {
+
+  filter = f => {
     this.setState({ filter: f.target.value });
   };
+
+  filteredContactList = () =>
+    this.state.contacts.filter(contact =>
+      contact.name.toLowerCase().includes(this.state.filter.toLowerCase())
+    );
+
   deleteContact = contactId => {
     this.setState(prevState => ({
       contacts: prevState.contacts.filter(contact => contact.id !== contactId),
@@ -60,11 +68,9 @@ export class App extends Component {
         <h1>Phonebook</h1>
         <ContactForm contact={this.addContact} />
         <h2>Contacts</h2>
-        <Filter filter={this.filterContactlist} />
+        <Filter filter={this.filter} />
         <ContactList
-          contacts={this.state.contacts.filter(contact =>
-            contact.name.toLowerCase().includes(this.state.filter.toLowerCase())
-          )}
+          contacts={this.filteredContactList()}
           idToDelete={this.deleteContact}
         />
       </div>
